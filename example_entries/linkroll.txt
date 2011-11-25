@@ -1,10 +1,6 @@
-# this is an example linkroll
-
-# required fields
 entry-type: linkroll
 title: The YAML 1.2 specification
 url: http://www.yaml.org/spec/1.2/spec.html
-
-# optional fields, if blank uses timestamps from file
+guid: http://blog.example.net/example-linkroll
 published-date: 2011-11-25 14:30:12
 modified-date: 2011-11-25 14:32:44

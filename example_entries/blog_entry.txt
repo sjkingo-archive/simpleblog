@@ -1,13 +1,7 @@
-# an example blog entry with markdown
-
-# required fields
 entry-type: blog
 title: Example blog entry
 guid: http://blog.example.net/example-blog-entry
-
-# optional fields, if blank uses timestamps from file
 published-date: 2011-11-25 14:30:12
 modified-date: 2011-11-25 14:32:44
 
-# the entry must finish with the body which is parsed using markdown
 Welcome to the example blog entry, parsed using **markdown**.
