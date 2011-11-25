@@ -1,0 +1,7 @@
+In here lie some sample entries to show the syntax required for both
+blog entries and linkrolls. In general, an entry is a YAML-formatted
+file with an optional body text at the end, parsed using markdown.
+
+There are two types of entries (specified by entry-type):
+ * blog
+ * linkroll
