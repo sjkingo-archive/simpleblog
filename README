@@ -18,5 +18,12 @@ To get started, make sure all of the DEPENDS are satisfied and run:
 
 ::
 
-    main.py directory_full_of_entries/
+    publish.py -f entry.txt
+
+You can also run the publisher over more than one entry by specifying a directory:
+
+::
+
+    publish.py -d directory_full_of_entries/
+
 

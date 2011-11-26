@@ -23,7 +23,6 @@ def register_filters(filter_dir='filters'):
         mods.add(m)
         print 'Registered filter %s' % d
     return mods
-filters = register_filters()
 
 def register_converters(converter_dir='converters'):
     mods = set()
@@ -44,9 +43,8 @@ def register_converters(converter_dir='converters'):
         mods.add(m)
         print 'Registered converter %s for type %s' % (d, m.converter_register['type'])
     return mods
-converters = register_converters()
 
-def run_dispatch(fp):
+def run_dispatch(fp, converters, filters=[]):
     # parse like a MIME document
     msg = email.message_from_file(fp)
     meta = dict(msg.items())
@@ -80,6 +78,3 @@ def run_dispatch(fp):
             'parse_body() did not return an ElementTree or None'
     if body_tree is not None:
         print ET.tostring(body_tree, pretty_print=True)
-
-
-run_dispatch(open('example_entries/blog_entry.txt', 'r'))
