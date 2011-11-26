@@ -2,18 +2,10 @@ import lxml.etree as ET
 
 from exc import *
 
-globally_required_meta = ['entry-type', 'title', 'guid']
-
 class Converter(object):
-    #: metadata required by this converter
-    locally_required_meta = []
-
     def __init__(self, meta, body):
         self.meta = meta #: dict of metadata
-        self.body = body #: block body, to be parsed by markdown
-        for r in self.locally_required_meta:
-            if r not in meta:
-                raise InvalidEntry('%s not present in entry' % r)
+        self.body = body #: block body
 
     def parse_title(self):
         """Subclasses should override this method to parse self.meta and
@@ -28,3 +20,9 @@ class Converter(object):
         no body is required).
         Note that this implementation simply returns no body."""
         return None
+
+converter_register = {
+    'converter': Converter,
+    'type': '<invalid>',
+    'required_meta': ['title', 'guid'],
+}

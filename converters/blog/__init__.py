@@ -19,3 +19,9 @@ class BlogEntry(converters.Converter):
         b = ET.fromstring(self.body)
         root.append(b)
         return ET.ElementTree(root)
+
+converter_register = {
+    'converter': BlogEntry,
+    'type': 'blog',
+    'required_meta': ['title', 'guid'],
+}
