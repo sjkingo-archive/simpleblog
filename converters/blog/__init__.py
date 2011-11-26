@@ -16,3 +16,6 @@ class BlogEntry(converters.Converter):
         root = ET.Element('div')
         root.set('id', entry_name)
         root.set('class', 'blog_entry')
+        b = ET.fromstring(self.body)
+        root.append(b)
+        return ET.ElementTree(root)
