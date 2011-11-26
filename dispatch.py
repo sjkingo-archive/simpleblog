@@ -2,13 +2,20 @@ import email
 
 import lxml.etree as ET
 
-from converters import globally_required_meta
-from converters.blog import BlogEntry
 from exc import *
 
+# converters
+from converters import globally_required_meta
+from converters.blog import BlogEntry
 dispatch_types = {
     'blog': BlogEntry,
 }
+
+# filters
+from filters.tomarkdown import filter_callback as markdown_callback
+filter_callbacks = [
+    markdown_callback,
+]
 
 def run_dispatch(fp):
     # parse like a MIME document
@@ -20,6 +27,10 @@ def run_dispatch(fp):
     for r in globally_required_meta:
         if r not in meta:
             raise InvalidEntry('%s not present in entry' % r)
+
+    # pass the body through any registered filters
+    for fi in filter_callbacks:
+        body = fi(body)
 
     try:
         entry = dispatch_types[meta.get('entry-type')](meta, body)
