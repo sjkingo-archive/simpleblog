@@ -1,4 +1,6 @@
 import email
+import importlib
+import os
 
 import lxml.etree as ET
 
@@ -11,11 +13,24 @@ dispatch_types = {
     'blog': BlogEntry,
 }
 
-# filters
-from filters.tomarkdown import filter_callback as markdown_callback
-filter_callbacks = [
-    markdown_callback,
-]
+def register_filters(filter_dir='filters'):
+    mods = set()
+    dirs = [f for f in os.listdir(filter_dir) 
+            if os.path.isdir(os.path.join(filter_dir, f))]
+    for d in dirs:
+        mod_name = '%s.%s' % (filter_dir, d)
+        try:
+            m = importlib.import_module(mod_name)
+        except ImportError, e:
+            raise InvalidFilter(str(e))
+        if not hasattr(m, 'filter_register'):
+            raise InvalidFilter('filter_register not defined for %s' % mod_name)
+        if 'callback' not in m.filter_register:
+            raise InvalidFilter('filter_register does not define `callback` for %s' % mod_name)
+        mods.add(m)
+        print 'Registered filter %s' % d
+    return mods
+filters = register_filters()
 
 def run_dispatch(fp):
     # parse like a MIME document
@@ -29,8 +44,8 @@ def run_dispatch(fp):
             raise InvalidEntry('%s not present in entry' % r)
 
     # pass the body through any registered filters
-    for fi in filter_callbacks:
-        body = fi(body)
+    for filter_mod in filters:
+        body = filter_mod.filter_register['callback'](body)
 
     try:
         entry = dispatch_types[meta.get('entry-type')](meta, body)

@@ -5,4 +5,6 @@ def parse_markdown(body):
     md = Markdown(safe_mode=True, output_format='xhtml')
     return md.convert(body)
 
-filter_callback = parse_markdown
+filter_register = {
+    'callback': parse_markdown
+}
