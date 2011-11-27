@@ -1,4 +1,3 @@
-entry-type: blog
 title: Example blog entry
 guid: http://blog.example.net/example-blog-entry
 

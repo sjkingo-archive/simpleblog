@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from dispatch import run_dispatch, register_filters, register_converters
+from dispatch import run_dispatch, register_filters, setup_xslt
 
 def main():
     parser = argparse.ArgumentParser(
@@ -25,9 +25,11 @@ def main():
         except OSError, e:
             parser.error(str(e))
 
-    # register the converters and filters
-    cons = register_converters()
     filters = register_filters()
+    try:
+        xslt = setup_xslt(os.path.join('templates', 'style.xsl'))
+    except IOError, e:
+        parser.error(str(e))
 
     # publish each entry by dispatching it
     for f in files:
@@ -39,7 +41,7 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            run_dispatch(input_fp, output_fp, cons, filters)
+            run_dispatch(input_fp, output_fp, xslt, filters)
             input_fp.close()
             output_fp.close()
 

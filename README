@@ -5,14 +5,14 @@ simpleblog is a blogging platform that is intented to be have a low barrier to
 setup and entry, and to make publishing blog entries simple and trivial to do.
 
 It takes input as a series of MIME-type text files describing the entry and its
-content (see example-entries) and outputs as a HTML tree ready to be published.
+content (see example-entries) and applies an XSLT stylesheet to render an 
+output of HTML, ready to be published.
 
-A lot of the ideas for simpleblog are taken from a fellow blogging platform called
-constance (http://github.com/danc86/constance). The primary purpose of this system
-is to provide extensibility via filters and converters. Filters can be defined 
-as submodules to alter the text as it is processed (such as converting from 
-markdown to HTML). New entry types can be easily added as a converter and 
-built on the fly.
+A lot of the ideas for simpleblog are taken from a fellow blogging platform
+called constance (http://github.com/danc86/constance). The primary purpose of
+this system is to provide extensibility via filters. Filters can be defined as
+submodules to alter the text as it is processed (such as converting from
+markdown to HTML).
 
 To get started, make sure all of the DEPENDS are satisfied and run:
 
