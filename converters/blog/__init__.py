@@ -29,8 +29,9 @@ class BlogEntry(converters.Converter):
             mod_date.set('title', self.modified_date.isoformat())
             mod_date.text = self.modified_date.strftime(self.date_format)
 
-        b = ET.fromstring(self.body)
-        root.append(b)
+        body_div = ET.SubElement(root, 'div')
+        body_div.set('class', 'entry_body')
+        body_div.append(ET.fromstring(self.body))
 
         return ET.ElementTree(root)
 
