@@ -32,6 +32,7 @@ def main():
     # publish each entry by dispatching it
     for f in files:
         out = os.path.splitext(f)[0] + '.html'
+        print 'Publishing %s to %s' % (f, out)
         try:
             input_fp = open(f, 'r')
             output_fp = open(out, 'w')
