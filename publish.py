@@ -15,18 +15,32 @@ def main():
             help='filename of a single entry to publish')
     args = parser.parse_args()
 
-    cons = register_converters()
-    filters = register_filters()
-
+    # collect input filenames
     if args.filename:
         files = [args.filename]
     else:
-        files = [os.path.join(args.dirname, f) for f in os.listdir(args.dirname)
-                if os.path.splitext(os.path.join(args.dirname, f))[1] == '.txt']
+        try:
+            files = [os.path.join(args.dirname, f) for f in os.listdir(args.dirname)
+                    if os.path.splitext(os.path.join(args.dirname, f))[1] == '.txt']
+        except OSError, e:
+            parser.error(str(e))
 
+    # register the converters and filters
+    cons = register_converters()
+    filters = register_filters()
+
+    # publish each entry by dispatching it
     for f in files:
-        with open(f, 'r') as fp:
-            run_dispatch(fp, cons, filters)
+        out = os.path.splitext(f)[0] + '.html'
+        try:
+            input_fp = open(f, 'r')
+            output_fp = open(out, 'w')
+        except IOError, e:
+            parser.error(str(e))
+        else:
+            run_dispatch(input_fp, output_fp, cons, filters)
+            input_fp.close()
+            output_fp.close()
 
 
 if __name__ == '__main__':

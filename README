@@ -26,4 +26,4 @@ You can also run the publisher over more than one entry by specifying a director
 
     publish.py -d directory_full_of_entries/
 
-
+The published HTML file will be placed in the same directory as the input entry.

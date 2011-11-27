@@ -44,9 +44,9 @@ def register_converters(converter_dir='converters'):
         print 'Registered converter %s for type %s' % (d, m.converter_register['type'])
     return mods
 
-def run_dispatch(fp, converters, filters=[]):
+def run_dispatch(input_fp, output_fp, converters, filters=[]):
     # parse like a MIME document
-    msg = email.message_from_file(fp)
+    msg = email.message_from_file(input_fp)
     meta = dict(msg.items())
     body = msg.get_payload()
 
@@ -71,10 +71,10 @@ def run_dispatch(fp, converters, filters=[]):
     title_tree = entry.parse_title()
     assert type(title_tree) == ET._ElementTree, \
             'parse_title() did not return an ElementTree'
-    print ET.tostring(title_tree, pretty_print=True)
+    output_fp.write(ET.tostring(title_tree, pretty_print=True))
 
     body_tree = entry.parse_body()
     assert body_tree is None or type(body_tree) == ET._ElementTree, \
             'parse_body() did not return an ElementTree or None'
     if body_tree is not None:
-        print ET.tostring(body_tree, pretty_print=True)
+        output_fp.write(ET.tostring(body_tree, pretty_print=True))
