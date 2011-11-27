@@ -3,6 +3,10 @@
 import argparse
 import os
 
+# note we must insert this as position 0 since dispatch is a standard module
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 from dispatch import run_dispatch, register_filters, setup_xslt
 
 def main():

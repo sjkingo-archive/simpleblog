@@ -14,16 +14,17 @@ this system is to provide extensibility via filters. Filters can be defined as
 submodules to alter the text as it is processed (such as converting from
 markdown to HTML).
 
-To get started, make sure all of the DEPENDS are satisfied and run:
+To get started with the file publisher (writes to .html files), make sure all 
+of the DEPENDS are satisfied and run:
 
 ::
 
-    publish.py -f entry.txt
+    publishers/file.py -f entry.txt
 
 You can also run the publisher over more than one entry by specifying a directory:
 
 ::
 
-    publish.py -d directory_full_of_entries/
+    publishers/file.py -d directory_full_of_entries/
 
 The published HTML file will be placed in the same directory as the input entry.
