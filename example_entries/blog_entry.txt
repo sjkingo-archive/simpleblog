@@ -1,7 +1,5 @@
 entry-type: blog
 title: Example blog entry
 guid: http://blog.example.net/example-blog-entry
-published-date: 2011-11-25 14:30:12
-modified-date: 2011-11-25 14:32:44
 
 Welcome to the example blog entry, parsed using **markdown**.
