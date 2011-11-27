@@ -3,9 +3,11 @@ import lxml.etree as ET
 from exc import *
 
 class Converter(object):
-    def __init__(self, meta, body):
-        self.meta = meta #: dict of metadata
-        self.body = body #: block body
+    date_format = '%d %b %Y'
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
     def parse_title(self):
         """Subclasses should override this method to parse self.meta and

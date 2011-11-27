@@ -1,3 +1,4 @@
+import datetime
 import email
 import importlib
 import os
@@ -67,7 +68,20 @@ def run_dispatch(input_fp, output_fp, converters, filters=[]):
     for filter_mod in filters:
         body = filter_mod.filter_register.get('callback')(body)
 
-    entry = dispatcher.converter_register.get('converter')(meta, body)
+    # extract the publication and modified dates
+    st = os.stat(input_fp.name)
+    published_date = datetime.datetime.fromtimestamp(st.st_ctime)
+    modified_date = datetime.datetime.fromtimestamp(st.st_mtime)
+    if modified_date == published_date:
+        modified_date = None
+
+    # dispatch to convert
+    entry = dispatcher.converter_register.get('converter')(
+            meta=meta,
+            body=body,
+            published_date=published_date,
+            modified_date=modified_date)
+
     title_tree = entry.parse_title()
     assert type(title_tree) == ET._ElementTree, \
             'parse_title() did not return an ElementTree'
