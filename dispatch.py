@@ -1,4 +1,3 @@
-import datetime
 import email
 import importlib
 import os
@@ -45,15 +44,6 @@ def run_dispatch(input_fp, output_fp, filters=[]):
     for filter_mod in filters:
         body = filter_mod.filter_register.get('callback')(body)
 
-    # extract the publication and modified dates
-    st = os.stat(input_fp.name)
-    published_date = datetime.datetime.fromtimestamp(st.st_ctime)
-    modified_date = datetime.datetime.fromtimestamp(st.st_mtime)
-    if modified_date == published_date:
-        modified_date = None
-
     e = entry.Entry(meta=meta,
-                    body=body,
-                    published_date=published_date,
-                    modified_date=modified_date)
+                    body=body)
     output_fp.write(e.to_html_tree())

@@ -1,22 +1,26 @@
+import datetime
 import os
 from jinja2 import Environment, FileSystemLoader
-import lxml.etree as ET
 
 jenv = Environment(loader=FileSystemLoader(
     os.path.join(os.path.dirname(__file__), 'templates')))
 
 class Entry(object):
-    required_meta = ['title', 'guid']
+    required_meta = ['title', 'guid', 'published-date']
+    on_disk_date_format = '%Y-%m-%d %H:%M:%S'
     date_format = '%d %b %Y'
 
     meta = []
     body = None
-    published_date = None
-    modified_date = None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
+
+    @property
+    def published_date(self):
+        return datetime.datetime.strptime(self.meta.get('published-date'), 
+                self.on_disk_date_format)
 
     @property
     def guid_suffix(self):
@@ -26,4 +30,3 @@ class Entry(object):
         tmpl = jenv.get_template('entry.html')
         t = tmpl.render(entry=self)
         return t
-        #return ET.fromstring(t)
