@@ -9,7 +9,7 @@ content (see example-entries) and applies an XSLT stylesheet to render an
 output of HTML, ready to be published.
 
 A lot of the ideas for simpleblog are taken from a fellow blogging platform
-called constance (http://github.com/danc86/constance). The primary purpose of
+called [constance](http://github.com/danc86/constance). The primary purpose of
 this system is to provide extensibility via filters. Filters can be defined as
 submodules to alter the text as it is processed (such as converting from
 markdown to HTML).
@@ -17,13 +17,9 @@ markdown to HTML).
 To get started with the file publisher (writes to .html files), make sure all 
 of the DEPENDS are satisfied and run:
 
-::
-
     publishers/file.py -f entry.txt
 
 You can also run the publisher over more than one entry by specifying a directory:
-
-::
 
     publishers/file.py -d directory_full_of_entries/
 
