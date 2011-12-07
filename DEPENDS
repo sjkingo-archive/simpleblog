@@ -1,3 +1,3 @@
 dev-python/lxml
 dev-python/markdown # for the tomarkdown filter
-dev-python/genshi
+dev-python/jinja

@@ -1,23 +1,21 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:py="http://genshi.edgewall.org/"
-      lang="en-AU">
-
+<!DOCTYPE html>
+<html lang="en-AU">
 <head>
-    <title>${entry.meta.title}</title>
+    <title>{{ entry.meta.title }}</title>
+    <meta http-equiv="content-type" content="text/html" charset=utf-8" />
+    <meta name="generator" content="simpleblog" />
 </head>
-
 <body>
-    <div id="${entry.guid_suffix}" class="blog-entry">
-        <div id="published-date" title="${entry.published_date.isoformat()}">
-            ${entry.published_date.strftime(entry.date_format)}
+    <div id="{{ entry.guid_suffix }}" class="blog-entry">
+        <div id="published-date" title="{{ entry.published_date.isoformat() }}">
+            {{ entry.published_date.strftime(entry.date_format) }}
         </div>
         <h1 class="title">
-            <a href="${entry.meta.guid}">${entry.meta.title}</a>
+            <a href="{{ entry.meta.guid }}">{{ entry.meta.title }}</a>
         </h1>
         <div class="entry-content">
-            ${Markup(entry.body)}
+            {{ entry.body }}
         </div>
     </div>
 </body>
-
 </html>

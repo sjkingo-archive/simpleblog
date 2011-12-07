@@ -1,7 +1,9 @@
-from genshi.template import TemplateLoader
+import os
+from jinja2 import Environment, FileSystemLoader
 import lxml.etree as ET
 
-_template_loader = TemplateLoader('templates', variable_lookup='strict')
+jenv = Environment(loader=FileSystemLoader(
+    os.path.join(os.path.dirname(__file__), 'templates')))
 
 class Entry(object):
     required_meta = ['title', 'guid']
@@ -21,5 +23,7 @@ class Entry(object):
         return self.meta.get('guid').rsplit('/', 1)[-1]
 
     def to_html_tree(self):
-        t = _template_loader.load('entry.html').generate(entry=self).render('xhtml')
-        return ET.fromstring(t)
+        tmpl = jenv.get_template('entry.html')
+        t = tmpl.render(entry=self)
+        return t
+        #return ET.fromstring(t)
