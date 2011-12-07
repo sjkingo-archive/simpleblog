@@ -26,6 +26,19 @@ class Entry(object):
     def guid_suffix(self):
         return self.meta.get('guid').rsplit('/', 1)[-1]
 
+    @property
+    def is_linkroll(self):
+        # TODO need to check against base guid
+        return True
+
+    @property
+    def css_type(self):
+        # TODO need to check against base guid
+        css = 'entry'
+        if self.is_linkroll:
+            css += ' linkroll'
+        return css
+
     def to_html_tree(self):
         tmpl = jenv.get_template('entry.html')
         t = tmpl.render(entry=self)

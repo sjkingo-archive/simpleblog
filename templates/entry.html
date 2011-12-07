@@ -5,18 +5,57 @@
     <title>{{ entry.meta.title }}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="generator" content="simpleblog" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans" />
+    <link rel="stylesheet" type="text/css" href="/styles/simpleblog.css" />
+    <script type="text/javascript" src="/scripts/h.js"></script>
 </head>
+
 <body>
-    <div id="{{ entry.guid_suffix }}" class="blog-entry">
-        <div id="published-date" title="{{ entry.published_date.isoformat() }}">
-            {{ entry.published_date.strftime(entry.date_format) }}
+    <div id="bodywrapper">
+        <div id="header">
+            <h1>SJKingston.com</h1>
+            <a href="http://www.sjkingston.com/">
+                <object type="image/svg+xml" data="/images/sjkingston.svg" class="svg-title">
+                    <img src="/images/sjkingston.png" alt="SJKingston.com" />
+                </object>
+            </a>
+            <a href="/blog/" title="Blog">
+                <object type="image/svg+xml" data="/images/blog.svg">
+                    <img src="/images/blog.png" alt="Blog" />
+                </object>
+            </a>
+            <a href="/contact/" title="Contact me">
+                <object type="image/svg+xml" data="/images/vcard.svg">
+                    <img src="/images/vcard.png" alt="Contact me" />
+                </object>
+            </a>
+            <a href="/blog/feed.atom" title="Subscribe to the Atom feed">
+                <object type="image/svg+xml" data="/images/feed.svg">
+                    <img src="/images/feed.png" alt="Subscribe to the Atom feed" />
+                </object>
+            </a>
         </div>
-        <h1 class="title">
-            <a href="{{ entry.meta.guid }}">{{ entry.meta.title }}</a>
-        </h1>
-        <div class="entry-content">
-            {{ entry.body }}
+        <div id="content">
+            <div id="{{ entry.guid_suffix }}" class="{{ entry.css_type }}">
+                <div class="published-date" title="{{ entry.published_date.isoformat() }}">
+                    <span class="day">{{ entry.published_date.strftime('%d') }}</span>
+                    {{ entry.published_date.strftime('%b %Y') }}
+                </div>
+                <div class="entry-title">
+                    {% if entry.is_linkroll %}
+                    <object type="image/svg+xml" data="/images/linkroll.svg" class="svg-linkroll">
+                        <img src="/images/linkroll.png" alt="linkroll" />
+                    </object>
+                    {% endif %}
+                    <h2><a href="{{ entry.meta.guid }}">{{ entry.meta.title }}</a></h2>
+                </div>
+                {% if entry.body %}
+                <div class="entry-body">
+                    {{ entry.body }}
+                </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 </body>
+
 </html>
