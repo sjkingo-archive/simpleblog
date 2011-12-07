@@ -8,11 +8,15 @@ from exc import *
 import entry
 
 def register_filters(filter_dir='filters'):
+    filter_dir = os.path.abspath(filter_dir)
+    sys.path.insert(0, filter_dir)
+
     mods = set()
+
     dirs = [f for f in os.listdir(filter_dir) 
             if os.path.isdir(os.path.join(filter_dir, f))]
-    for d in dirs:
-        mod_name = '%s.%s' % (filter_dir, d)
+
+    for mod_name in dirs:
         try:
             m = importlib.import_module(mod_name)
         except ImportError, e:
@@ -22,7 +26,8 @@ def register_filters(filter_dir='filters'):
         if 'callback' not in m.filter_register:
             raise InvalidFilter('filter_register does not define `callback` for %s' % mod_name)
         mods.add(m)
-        print 'Registered filter %s' % d
+        print 'Registered filter %s' % mod_name
+
     return mods
 
 def run_dispatch(input_fp, output_fp, filters=[]):
