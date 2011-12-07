@@ -20,6 +20,6 @@ class Entry(object):
     def guid_suffix(self):
         return self.meta.get('guid').rsplit('/', 1)[-1]
 
-    def to_html(self):
+    def to_html_tree(self):
         t = _template_loader.load('entry.html').generate(entry=self).render('xhtml')
         return ET.fromstring(t)

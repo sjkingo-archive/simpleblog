@@ -4,6 +4,7 @@ import importlib
 import os
 
 import lxml.etree as ET
+import lxml.html as H
 
 from exc import *
 import entry
@@ -55,5 +56,8 @@ def run_dispatch(input_fp, output_fp, xslt, filters=[]):
                     body=body,
                     published_date=published_date,
                     modified_date=modified_date)
-    transformed = xslt(e.to_html())
-    output_fp.write(ET.tostring(transformed, pretty_print=True))
+    transformed = xslt(e.to_html_tree())
+    output_fp.write(H.tostring(transformed,
+        pretty_print=True,
+        encoding='utf-8',
+        method='html')) 
