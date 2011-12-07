@@ -2,6 +2,7 @@ import email
 import importlib
 import os
 import sys
+import urlparse
 
 from exc import *
 import entry
@@ -29,7 +30,7 @@ def register_filters(filter_dir='filters'):
 
     return mods
 
-def run_dispatch(input_fp, output_fp, filters=[]):
+def run_dispatch(input_fp, output_fp, root_guid, filters=[]):
     # parse like a MIME document
     msg = email.message_from_file(input_fp)
     meta = dict(msg.items())
@@ -40,10 +41,15 @@ def run_dispatch(input_fp, output_fp, filters=[]):
         if r not in meta:
             raise InvalidEntry('%s not present in entry meta' % r)
 
+    # parse the root guid and extract the required elements
+    up = urlparse.urlparse(root_guid)
+
     # pass the body through any registered filters
     for filter_mod in filters:
         body = filter_mod.filter_register.get('callback')(body)
 
     e = entry.Entry(meta=meta,
-                    body=body)
+                    body=body,
+                    guid_domain=up.netloc,
+                    guid_base=up.path)
     output_fp.write(e.to_html_tree())

@@ -12,6 +12,8 @@ from dispatch import run_dispatch, register_filters
 def main():
     parser = argparse.ArgumentParser(
             description='Publish a blog entry (or entries) to HTML')
+    parser.add_argument('-g', '--guid', metavar='URI', default='http://localhost/',
+            help='root guid in the form of a valid RFC 1808 URI')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d', '--dir', metavar='DIR', dest='dirname',
             help='directory of entries to publish')
@@ -44,7 +46,7 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            run_dispatch(input_fp, output_fp, filters)
+            run_dispatch(input_fp, output_fp, args.guid, filters)
             input_fp.close()
             output_fp.close()
 

@@ -1,5 +1,6 @@
 import datetime
 import os
+import urlparse
 from jinja2 import Environment, FileSystemLoader
 
 jenv = Environment(loader=FileSystemLoader(
@@ -12,6 +13,8 @@ class Entry(object):
 
     meta = []
     body = None
+    guid_domain = None
+    guid_base = None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -28,12 +31,10 @@ class Entry(object):
 
     @property
     def is_linkroll(self):
-        # TODO need to check against base guid
-        return True
+        return urlparse.urlparse(self.meta.get('guid')).netloc != self.guid_domain
 
     @property
     def css_type(self):
-        # TODO need to check against base guid
         css = 'entry'
         if self.is_linkroll:
             css += ' linkroll'
