@@ -1,7 +1,7 @@
-from markdown import Markdown
+import markdown2
 
 def parse_markdown(body):
-    md = Markdown(safe_mode=True, output_format='xhtml')
+    md = markdown2.Markdown()
     return md.convert(body)
 
 filter_register = {
