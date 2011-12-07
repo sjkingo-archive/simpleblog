@@ -7,7 +7,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from dispatch import run_dispatch, register_filters, setup_xslt
+from dispatch import run_dispatch, register_filters
 
 def main():
     parser = argparse.ArgumentParser(
@@ -29,11 +29,10 @@ def main():
         except OSError, e:
             parser.error(str(e))
 
-    filters = register_filters()
-    try:
-        xslt = setup_xslt(os.path.join('templates', 'style.xsl'))
-    except IOError, e:
-        parser.error(str(e))
+    filter_dir = os.path.join(os.path.dirname(__file__), '..', 'filters')
+    tmpl_dir = os.path.join(os.path.dirname(__file__), '..', 'templates')
+
+    filters = register_filters(filter_dir)
 
     # publish each entry by dispatching it
     for f in files:
@@ -45,7 +44,7 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            run_dispatch(input_fp, output_fp, xslt, filters)
+            run_dispatch(input_fp, output_fp, filters)
             input_fp.close()
             output_fp.close()
 

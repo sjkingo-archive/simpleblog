@@ -2,9 +2,7 @@ import datetime
 import email
 import importlib
 import os
-
-import lxml.etree as ET
-import lxml.html as H
+import sys
 
 from exc import *
 import entry
@@ -27,10 +25,7 @@ def register_filters(filter_dir='filters'):
         print 'Registered filter %s' % d
     return mods
 
-def setup_xslt(filename):
-    return ET.XSLT(ET.parse(filename))
-
-def run_dispatch(input_fp, output_fp, xslt, filters=[]):
+def run_dispatch(input_fp, output_fp, filters=[]):
     # parse like a MIME document
     msg = email.message_from_file(input_fp)
     meta = dict(msg.items())
@@ -56,8 +51,4 @@ def run_dispatch(input_fp, output_fp, xslt, filters=[]):
                     body=body,
                     published_date=published_date,
                     modified_date=modified_date)
-    transformed = xslt(e.to_html_tree())
-    output_fp.write(H.tostring(transformed,
-        pretty_print=True,
-        encoding='utf-8',
-        method='html')) 
+    output_fp.write(e.to_html_tree())
