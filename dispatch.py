@@ -53,3 +53,13 @@ def run_dispatch(input_fp, output_fp, root_guid, filters=[]):
                     guid_domain=up.netloc,
                     guid_base=up.path)
     output_fp.write(e.to_html_tree())
+
+    return e
+
+def run_index_dispatch(entries, output_fp, root_guid):
+    up = urlparse.urlparse(root_guid)
+    i = entry.IndexOfEntries(entries, 
+                             guid_domain=up.netloc,
+                             guid_base=up.path)
+    output_fp.write(i.to_html_tree())
+    return i

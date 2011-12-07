@@ -44,3 +44,15 @@ class Entry(object):
         tmpl = jenv.get_template('entry.html')
         t = tmpl.render(entry=self)
         return t
+
+class IndexOfEntries(object):
+    guid_domain = None
+    guid_base = None
+
+    def __init__(self, entries, **kwargs):
+        self.entries = entries
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    def to_html_tree(self):
+        return jenv.get_template('index.html').render(entries=self.entries)
