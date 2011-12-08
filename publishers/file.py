@@ -34,8 +34,6 @@ def main():
             parser.error(str(e))
 
     filter_dir = os.path.join(os.path.dirname(__file__), '..', 'filters')
-    tmpl_dir = os.path.join(os.path.dirname(__file__), '..', 'templates')
-
     filters = register_filters(filter_dir)
 
     # publish each entry by dispatching it
