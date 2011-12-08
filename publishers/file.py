@@ -44,12 +44,12 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            e = run_dispatch(input_fp, args.base, filters)
+            e, html = run_dispatch(input_fp, args.base, filters)
             if e.output_filename is not None:
                 out = os.path.join(os.path.dirname(f), e.output_filename)
                 print 'Publishing %s to %s' % (f, out)
                 with open(out, 'w') as output_fp:
-                    output_fp.write(e.to_html_tree())
+                    output_fp.write(html)
             else:
                 print 'Skipping publishing %s as it has no output' % f
             entries.append(e)
@@ -59,9 +59,9 @@ def main():
     if args.index:
         out = os.path.join(os.path.dirname(f), 'index.html')
         print 'Publishing index with %d entries to %s' % (len(entries), out)
-        i = run_index_dispatch(entries, args.base)
+        i, html = run_index_dispatch(entries, args.base, filters)
         with open(out, 'w') as fp:
-            fp.write(i.to_html_tree())
+            fp.write(html)
 
         atom = os.path.join(os.path.dirname(f), 'feed.atom')
         print 'Publishing atom feed to %s' % atom
