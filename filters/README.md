@@ -52,3 +52,11 @@ The `filter_register` dictionary contains three required keys:
   (e.g. method, class)
 * `apply_to` defines when the filter shall be run. It must be one of
   `entry_body` or `html_file`, described at the top of this document.
+
+An example callback (`run_filter`, from above) could transform the body text
+into uppercase:
+
+```python
+def run_filter(s):
+    return s.upper()
+```
