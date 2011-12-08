@@ -34,11 +34,12 @@ Each filter is a Python module located in the `filters/` subdirectory. It
 contains at least one file (`__init__.py`) and must define a dictionary called
 `filter_register`. An example dictionary is given below:
 
-    filter_register = {
-        'enabled': True,
-        'callback': run_filter,
-        'apply_to': 'entry_body'
-    }
+```python
+filter_register = {
+    'enabled': True,
+    'callback': run_filter,
+    'apply_to': 'entry_body'
+}```
 
 The `filter_register` dictionary contains three required keys:
 
