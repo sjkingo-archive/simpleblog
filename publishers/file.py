@@ -12,8 +12,8 @@ from dispatch import run_dispatch, run_index_dispatch, register_filters
 def main():
     parser = argparse.ArgumentParser(
             description='Publish a blog entry (or entries) to HTML')
-    parser.add_argument('-g', '--guid', metavar='URI', default='http://localhost/',
-            help='root guid in the form of a valid RFC 1808 URI')
+    parser.add_argument('-b', '--base', metavar='URL', default='http://localhost/',
+            help='base URL prepended to all generated references (ensure it has a trailing slash)')
     parser.add_argument('-i', '--index', action='store_true', default=False,
             help='write index.html file, possibly overriding it (note: if given with -f then the only one entry will be added to index)')
     group = parser.add_mutually_exclusive_group(required=True)
@@ -41,30 +41,29 @@ def main():
     # publish each entry by dispatching it
     entries = []
     for f in files:
-        out = os.path.splitext(f)[0] + '.html'
-        print 'Publishing %s to %s' % (f, out)
         try:
             input_fp = open(f, 'r')
-            output_fp = open(out, 'w')
         except IOError, e:
             parser.error(str(e))
         else:
-            e = run_dispatch(input_fp, output_fp, args.guid, filters)
+            e = run_dispatch(input_fp, args.base, filters)
+            if e.output_filename is not None:
+                out = os.path.join(os.path.dirname(f), e.output_filename)
+                print 'Publishing %s to %s' % (f, out)
+                with open(out, 'w') as output_fp:
+                    output_fp.write(e.to_html_tree())
+            else:
+                print 'Skipping publishing %s as it has no output' % f
             entries.append(e)
             input_fp.close()
-            output_fp.close()
 
     # publish index if requested
     if args.index:
         out = os.path.join(os.path.dirname(f), 'index.html')
         print 'Publishing index with %d entries to %s' % (len(entries), out)
-        try:
-            output_fp = open(out, 'w')
-        except IOError, e:
-            parser.error(str(e))
-        else:
-            run_index_dispatch(entries, output_fp, args.guid)
-            output_fp.close()
+        i = run_index_dispatch(entries, args.base)
+        with open(out, 'w') as fp:
+            fp.write(i.to_html_tree())
 
 
 if __name__ == '__main__':

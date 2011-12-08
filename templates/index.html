@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block title %}{{ entry.meta.title }} - SJKingston.com{% endblock %}
+{% block title %}SJKingston.com{% endblock %}
 {% block content %}
+
+{% for entry in entries %}
 <div id="{{ entry.tag_name }}" class="{{ entry.css_type }}">
     <div class="published-date" title="{{ entry.published_date.isoformat() }}">
         <span class="day">{{ entry.published_date.strftime('%d') }}</span>
@@ -14,10 +16,7 @@
         {% endif %}
         <h2><a href="{{ entry.this_url }}">{{ entry.meta.title }}</a></h2>
     </div>
-    {% if entry.body %}
-    <div class="entry-body">
-        {{ entry.body }}
-    </div>
-    {% endif %}
 </div>
+{% endfor %}
+
 {% endblock %}

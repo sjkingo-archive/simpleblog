@@ -7,21 +7,17 @@ jenv = Environment(loader=FileSystemLoader(
     os.path.join(os.path.dirname(__file__), 'templates')))
 
 class Entry(object):
-    required_meta = ['title', 'guid', 'published-date']
+    required_meta = ['title', 'tag', 'published-date']
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
     date_format = '%d %b %Y'
 
-    meta = []
-    body = None
-    guid_domain = None
-    guid_base = None
-
-    def __init__(self, **kwargs):
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+    def __init__(self, meta, body, base_url):
+        self.meta = meta
+        self.body = body
+        self.base_url = base_url
 
     def __repr__(self):
-        return '<Entry \'%s\' @ %s>' % (self.guid_suffix, self.published_date)
+        return '<Entry \'%s\' @ %s>' % (self.meta.get('tag'), self.published_date)
 
     @property
     def published_date(self):
@@ -29,12 +25,21 @@ class Entry(object):
                 self.on_disk_date_format)
 
     @property
-    def guid_suffix(self):
-        return self.meta.get('guid').rsplit('/', 1)[-1]
+    def tag_name(self):
+        return self.meta.get('tag').rsplit(':', 1)[-1]
+
+    @property
+    def output_filename(self):
+        return None if self.is_linkroll else self.tag_name + '.html'
+
+    @property
+    def this_url(self):
+        return self.meta.get('link') if self.is_linkroll else \
+                urlparse.urljoin(self.base_url, self.output_filename)
 
     @property
     def is_linkroll(self):
-        return urlparse.urlparse(self.meta.get('guid')).netloc != self.guid_domain
+        return True if 'link' in self.meta else False
 
     @property
     def css_type(self):
@@ -49,13 +54,9 @@ class Entry(object):
         return t
 
 class IndexOfEntries(object):
-    guid_domain = None
-    guid_base = None
-
-    def __init__(self, entries, **kwargs):
+    def __init__(self, entries, base_url):
         self.entries = sorted(entries, key=lambda e: e.published_date)
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+        self.base_url = base_url
 
     def to_html_tree(self):
         return jenv.get_template('index.html').render(entries=self.entries)
