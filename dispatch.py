@@ -40,9 +40,13 @@ def run_dispatch(input_fp, base_url, filters=[]):
         if r not in meta:
             raise InvalidEntry('%s not present in entry meta' % r)
 
-    # pass the body through any registered filters
-    for filter_mod in filters:
-        body = filter_mod.filter_register.get('callback')(body)
+    body = body.strip()
+    if len(body) == 0:
+        body = None
+    else:
+        # pass the body through any registered filters
+        for filter_mod in filters:
+            body = filter_mod.filter_register.get('callback')(body)
 
     return entry.Entry(meta, body, base_url)
 
