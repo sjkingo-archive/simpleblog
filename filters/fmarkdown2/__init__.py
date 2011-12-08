@@ -5,5 +5,6 @@ def parse_markdown(body):
     return md.convert(body)
 
 filter_register = {
-    'callback': parse_markdown
+    'callback': parse_markdown,
+    'when': 'start'
 }

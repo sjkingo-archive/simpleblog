@@ -1,3 +1,4 @@
 dev-python/lxml
 dev-python/markdown2 # for the fmarkdown filter
+dev-python/beautifulsoup # for the fprettify filter
 dev-python/jinja
