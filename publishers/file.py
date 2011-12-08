@@ -7,7 +7,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from dispatch import run_dispatch, run_index_dispatch, register_filters
+from dispatch import run_dispatch, run_index_dispatch, run_atom_dispatch, register_filters
 
 def main():
     parser = argparse.ArgumentParser(
@@ -15,7 +15,7 @@ def main():
     parser.add_argument('-b', '--base', metavar='URL', default='http://localhost/',
             help='base URL prepended to all generated references (ensure it has a trailing slash)')
     parser.add_argument('-i', '--index', action='store_true', default=False,
-            help='write index.html file, possibly overriding it (note: if given with -f then the only one entry will be added to index)')
+            help='write index page and atom feed, possibly overriding them (note: if given with -f then the only one entry will be added to each!)')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d', '--dir', metavar='DIR', dest='dirname',
             help='directory of entries to publish')
@@ -55,13 +55,19 @@ def main():
             entries.append(e)
             input_fp.close()
 
-    # publish index if requested
+    # publish index and atom feed if requested
     if args.index:
         out = os.path.join(os.path.dirname(f), 'index.html')
         print 'Publishing index with %d entries to %s' % (len(entries), out)
         i = run_index_dispatch(entries, args.base)
         with open(out, 'w') as fp:
             fp.write(i.to_html_tree())
+
+        atom = os.path.join(os.path.dirname(f), 'feed.atom')
+        print 'Publishing atom feed to %s' % atom
+        a = run_atom_dispatch(entries, args.base)
+        with open(atom, 'w') as fp:
+            fp.write(a.to_xml_tree())
 
 
 if __name__ == '__main__':

@@ -52,3 +52,6 @@ def run_dispatch(input_fp, base_url, filters=[]):
 
 def run_index_dispatch(entries, base_url):
     return entry.IndexOfEntries(entries, base_url)
+
+def run_atom_dispatch(entries, base_url):
+    return entry.AtomFeed(entries, base_url)

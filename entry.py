@@ -6,6 +6,8 @@ from jinja2 import Environment, FileSystemLoader
 jenv = Environment(loader=FileSystemLoader(
     os.path.join(os.path.dirname(__file__), 'templates')))
 
+ATOM_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S+10:00'
+
 class Entry(object):
     required_meta = ['title', 'tag', 'published-date']
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
@@ -84,3 +86,16 @@ class IndexOfEntries(object):
         tmpl = jenv.get_template('index.html')
         return tmpl.render(entries=self.entries,
                            join_url=_join_url)
+
+class AtomFeed(IndexOfEntries):
+    def to_xml_tree(self):
+        def _join_url(url):
+            return urlparse.urljoin(self.base_url, url)
+
+        max_d = max(e.published_date for e in self.entries)
+
+        tmpl = jenv.get_template('feed.atom')
+        return tmpl.render(entries=self.entries,
+                           join_url=_join_url,
+                           latest_published_date=max_d,
+                           ATOM_DATE_FORMAT=ATOM_DATE_FORMAT)

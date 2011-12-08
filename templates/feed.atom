@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>tag:sam@sjkwi.com.au,{{ latest_published_date.strftime('%Y-%m-%d') }}:blog/feed.atom</id>
+    <title>SJKingston.com Blog</title>
+    <link rel="self" type="application/atom+xml" href="{{ join_url('blog/feed.atom') }}" />
+    <link rel="alternate" href="{{ join_url('blog/') }}" />
+    <generator>simpleblog</generator>
+    <updated>{{ latest_published_date.strftime(ATOM_DATE_FORMAT) }}</updated>
+    <author>
+        <name>Sam Kingston</name>
+        <email>sam@sjkwi.com.au</email>
+    </author>
+
+    {% for entry in entries %}
+    <entry>
+        <id>{{ entry.meta.tag }}</id>
+        <title>{{ entry.meta.title }}</title>
+        <updated>{{ entry.published_date.strftime(ATOM_DATE_FORMAT) }}</updated>
+        <link rel="alternate" href="{{ entry.this_url }}" />
+        {% if entry.body %}
+            <content type="html">{{ entry.body|e }}</content>
+        {% else %}
+            <summary>{{ entry.meta.title }}</summary>
+        {% endif %}
+    </entry>
+    {% endfor %}
+</feed>
