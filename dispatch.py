@@ -33,14 +33,14 @@ def run_dispatch(input_fp, base_url, filters=[]):
     # parse like a MIME document
     msg = email.message_from_file(input_fp)
     meta = dict(msg.items())
-    body = msg.get_payload()
+    body_unfiltered = msg.get_payload()
 
     # validate the meta given
     for r in entry.Entry.required_meta:
         if r not in meta:
             raise InvalidEntry('%s not present in entry meta' % r)
 
-    body = body.strip()
+    body = body_unfiltered.strip()
     if len(body) == 0:
         body = None
     else:
@@ -48,7 +48,7 @@ def run_dispatch(input_fp, base_url, filters=[]):
         for filter_mod in filters:
             body = filter_mod.filter_register.get('callback')(body)
 
-    return entry.Entry(meta, body, base_url)
+    return entry.Entry(meta, body, body_unfiltered, base_url)
 
 def run_index_dispatch(entries, base_url):
     return entry.IndexOfEntries(entries, base_url)

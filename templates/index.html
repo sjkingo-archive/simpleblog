@@ -16,6 +16,15 @@
         {% endif %}
         <h2><a href="{{ entry.this_url }}">{{ entry.meta.title }}</a></h2>
     </div>
+    {% set summary, more = entry.summary %}
+    {% if summary is not none %}
+        <p class="summary">
+            {{ summary }}
+            {% if more %}
+                <span class="read-more"><a href="{{ entry.this_url }}">Read more</a></span>
+            {% endif %}
+        </p>
+    {% endif %}
 </div>
 {% endfor %}
 

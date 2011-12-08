@@ -10,9 +10,10 @@ class Entry(object):
     required_meta = ['title', 'tag', 'published-date']
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
 
-    def __init__(self, meta, body, base_url):
+    def __init__(self, meta, body, body_unfiltered, base_url):
         self.meta = meta
         self.body = body
+        self._body = body_unfiltered
         self.base_url = base_url
 
     def __repr__(self):
@@ -50,6 +51,23 @@ class Entry(object):
         if self.is_linkroll:
             css += ' linkroll'
         return css
+
+    @property
+    def summary(self):
+        if self.body:
+            if self.is_linkroll:
+                return (self.body, False)
+            else:
+                # note since we are hacking up the html here we must use the
+                # unfiltered _body so we don't chop up in the middle of some
+                # tags
+                s = self._body[:self._body.find('\n\n')]
+                more = True
+                if len(s) == len(self._body):
+                    more = False
+                return (s, more)
+        else:
+            return (None, False)
 
     def to_html_tree(self):
         def _join_url(url):
