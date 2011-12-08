@@ -6,8 +6,6 @@ TODO list
 * Move css/js/images into repo
 * s/linkroll/link
 * Contact page (static?)
-* Fix invalid HTML5:
-    * some mismatched tags
 * Underline links?
 * Copyright in footer should span to current year
 * Skip regenerating existing entries if there is no difference (constance implements this already)
