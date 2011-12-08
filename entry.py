@@ -58,12 +58,9 @@ class Entry(object):
             if self.is_linkroll:
                 return (self.body, False)
             else:
-                # note since we are hacking up the html here we must use the
-                # unfiltered _body so we don't chop up in the middle of some
-                # tags
-                s = self._body[:self._body.find('\n\n')]
+                s = self.body[:self.body.find('\n\n')]
                 more = True
-                if len(s) == len(self._body):
+                if len(s) == len(self.body):
                     more = False
                 return (s, more)
         else:

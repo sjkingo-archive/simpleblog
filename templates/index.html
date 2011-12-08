@@ -18,12 +18,14 @@
     </div>
     {% set summary, more = entry.summary %}
     {% if summary is not none %}
-        <p class="summary">
+        {% if more %}
+            <div class="summary">
+                {{ summary }}
+                <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
+            </div>
+        {% else %}
             {{ summary }}
-            {% if more %}
-                <span class="read-more"><a href="{{ entry.this_url }}">Read more</a></span>
-            {% endif %}
-        </p>
+        {% endif %}
     {% endif %}
 </div>
 {% endfor %}
