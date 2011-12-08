@@ -74,8 +74,7 @@ class Entry(object):
             return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('entry.html')
         return tmpl.render(entry=self, 
-                          join_url=_join_url,
-                          generated=datetime.datetime.now())
+                          join_url=_join_url)
 
 class IndexOfEntries(object):
     def __init__(self, entries, base_url):
@@ -87,5 +86,4 @@ class IndexOfEntries(object):
             return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('index.html')
         return tmpl.render(entries=self.entries,
-                           join_url=_join_url,
-                           generated=datetime.datetime.now())
+                           join_url=_join_url)
