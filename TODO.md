@@ -2,7 +2,6 @@ TODO list
 =========
 
 * Add back link from entry.html back to index
-* Move css/js/images into repo
 * Contact page (static?)
 * Underline links?
 * Copyright in footer should span to current year
