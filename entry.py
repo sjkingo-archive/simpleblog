@@ -20,6 +20,9 @@ class Entry(object):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
+    def __repr__(self):
+        return '<Entry \'%s\' @ %s>' % (self.guid_suffix, self.published_date)
+
     @property
     def published_date(self):
         return datetime.datetime.strptime(self.meta.get('published-date'), 
@@ -50,7 +53,7 @@ class IndexOfEntries(object):
     guid_base = None
 
     def __init__(self, entries, **kwargs):
-        self.entries = entries
+        self.entries = sorted(entries, key=lambda e: e.published_date)
         for k, v in kwargs.items():
             setattr(self, k, v)
 
