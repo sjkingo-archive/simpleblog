@@ -1,13 +1,53 @@
-A filter, if actived, applies to the body of an entry before being passed to a
-converter. Each filter must be a submodule (typically prefixed with 'f' i.e.
-fmarkdown2 - this is to prevent conflicting names with other system-wide
-modules) that defines a dict called `filter_register`. The required attributes 
-are given below:
+Filters
+=======
 
-* `callback`: a method that takes a single argument (the body text) and returns a modified version of it
-* `when`: one of `start` or `end`, denoting whether the body text should be passed through before applying to the template (`start`) or after the template has been generated (`end`)
+Overview
+--------
 
-The following filters are known:
+A filter, if activated (see below), applies to an entry at various points
+during generation. There are two points that a filter may register to be
+applied to:
 
-* fmarkdown2 - converts body text using a port of John Gruber's markdown script
-* fprettify - reformats the final HTML output prettily
+* `entry_body`: passes the filter over each entry's body before it is templated
+* `html_file`: passes the filter over the generated HTML file
+
+Each filter takes a string argument, (optionally) makes some modifications to
+it, and returns a transformed version of the string.
+
+Stock filters
+-------------
+
+Two filters are shipped with simpleblog and activated by default:
+
+* `fmarkdown2` converts each entry's body text from [Markdown](http://daringfireball.net/projects/markdown/syntax) to HTML
+* `fprettify` takes each generated page and reformats the HTML source for readability
+
+Either filter may be disabled by setting its `activated` attribute to `False`
+(more on this below).
+
+Filters are typically named with an `f` at the start; this is to prevent name
+conflicts with other Python modules on the import path.
+
+Internals of a filter
+---------------------
+
+Each filter is a Python module located in the `filters/` subdirectory. It
+contains at least one file (`__init__.py`) and must define a dictionary called
+`filter_register`. An example dictionary is given below:
+
+    filter_register = {
+        'enabled': True,
+        'callback': run_filter,
+        'apply_to': 'entry_body'
+    }
+
+The `filter_register` dictionary contains three required keys:
+
+* `enabled` must be a boolean and can be used to disable a filter from running
+  (if set to `False`).
+* `callback` is the callable object that will be called when the filter is run.
+  It must take a single argument (the input) and return an (optionally)
+  transformed output. It may be any object that can be called with an argument
+  (e.g. method, class)
+* `apply_to` defines when the filter shall be run. It must be one of
+  `entry_body` or `html_file`, described at the top of this document.

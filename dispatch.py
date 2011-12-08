@@ -6,11 +6,14 @@ import sys
 from exc import *
 import entry
 
-def filter_end(html, filters):
-    # pass the templated page through any registered filters defined for end
-    for filter_mod in [f for f in filters if f.filter_register.get('when') == 'end']:
-        html = filter_mod.filter_register.get('callback')(html)
-    return html
+def get_filters_for(filters, apply_to):
+    return [f for f in filters 
+            if f.filter_register.get('apply_to') == apply_to]
+
+def apply_filters_for(filters, apply_to, s):
+    for filter_mod in get_filters_for(filters, apply_to):
+        s = filter_mod.filter_register.get('callback')(s)
+    return s
 
 def register_filters(filter_dir='filters'):
     filter_dir = os.path.abspath(filter_dir)
@@ -28,14 +31,21 @@ def register_filters(filter_dir='filters'):
             raise InvalidFilter(str(e))
         if not hasattr(m, 'filter_register'):
             raise InvalidFilter('filter_register not defined for %s' % mod_name)
+        if 'enabled' not in m.filter_register:
+            raise InvalidFilter('filter_register does not define `enabled` for %s' % mod_name)
         if 'callback' not in m.filter_register:
             raise InvalidFilter('filter_register does not define `callback` for %s' % mod_name)
-        if 'when' not in m.filter_register:
-            raise InvalidFilter('filter_register does not define `when` for %s' % mod_name)
-        if m.filter_register.get('when') not in ['start', 'end']:
-            raise InvalidFilter('filter_register.when has an invalid value for %s' % mod_name)
-        mods.add(m)
-        print 'Registered filter %s to run at %s' % (mod_name, m.filter_register.get('when'))
+        if 'apply_to' not in m.filter_register:
+            raise InvalidFilter('filter_register does not define `apply_to` for %s' % mod_name)
+        if m.filter_register.get('apply_to') not in ['entry_body', 'html_file']:
+            raise InvalidFilter('filter_register.apply_to has an invalid value for %s' % mod_name)
+
+        if m.filter_register.get('enabled'):
+            mods.add(m)
+            print 'Registered filter %s that will apply to %s' % (mod_name,
+                    m.filter_register.get('apply_to'))
+        else:
+            print 'Not registering disabled filter %s' % mod_name
 
     return mods
 
@@ -54,17 +64,15 @@ def run_dispatch(input_fp, base_url, filters=[]):
     if len(body) == 0:
         body = None
     else:
-        # pass the body through any registered filters defined for start
-        for filter_mod in [f for f in filters if f.filter_register.get('when') == 'start']:
-            body = filter_mod.filter_register.get('callback')(body)
+        body = apply_filters_for(filters, 'entry_body', body)
 
     e = entry.Entry(meta, body, body_unfiltered, base_url)
-    html = filter_end(e.to_html_tree(), filters)
+    html = apply_filters_for(filters, 'html_file', e.to_html_tree())
     return (e, html)
 
 def run_index_dispatch(entries, base_url, filters=[]):
     i = entry.IndexOfEntries(entries, base_url)
-    html = filter_end(i.to_html_tree(), filters)
+    html = apply_filters_for(filters, 'html_file', i.to_html_tree())
     return (i, html)
 
 def run_atom_dispatch(entries, base_url):

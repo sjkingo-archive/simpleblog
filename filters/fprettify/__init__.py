@@ -5,6 +5,7 @@ def prettify_html(s):
     return d.prettify()
 
 filter_register = {
+    'enabled': True,
     'callback': prettify_html,
-    'when': 'end'
+    'apply_to': 'html_file',
 }
