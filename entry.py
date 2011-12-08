@@ -25,8 +25,12 @@ class Entry(object):
                 self.on_disk_date_format)
 
     @property
+    def tag_specific(self):
+        return self.meta.get('tag').split(':')[-1]
+
+    @property
     def tag_name(self):
-        return self.meta.get('tag').split(':')[-1].split('/')[-1]
+        return self.tag_specific.split('/')[-1]
 
     @property
     def output_filename(self):
@@ -34,8 +38,8 @@ class Entry(object):
 
     @property
     def this_url(self):
-        return self.meta.get('link') if self.is_linkroll else \
-                urlparse.urljoin(self.base_url, self.output_filename)
+        return self.meta.get('link') if self.is_linkroll \
+                else urlparse.urljoin(self.base_url, self.tag_specific)
 
     @property
     def is_linkroll(self):
