@@ -34,28 +34,28 @@ class Entry(object):
 
     @property
     def output_filename(self):
-        return None if self.is_linkroll else self.tag_name + '.html'
+        return None if self.is_link else self.tag_name + '.html'
 
     @property
     def this_url(self):
-        return self.meta.get('link') if self.is_linkroll \
+        return self.meta.get('link') if self.is_link \
                 else urlparse.urljoin(self.base_url, self.tag_specific)
 
     @property
-    def is_linkroll(self):
+    def is_link(self):
         return True if 'link' in self.meta else False
 
     @property
     def css_type(self):
         css = 'entry'
-        if self.is_linkroll:
-            css += ' linkroll'
+        if self.is_link:
+            css += ' link'
         return css
 
     @property
     def summary(self):
         if self.body:
-            if self.is_linkroll:
+            if self.is_link:
                 return (self.body, False)
             else:
                 s = self.body[:self.body.find('\n\n')]

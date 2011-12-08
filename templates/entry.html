@@ -7,9 +7,9 @@
         {{ entry.published_date.strftime('%b %Y') }}
     </div>
     <div class="entry-title">
-        {% if entry.is_linkroll %}
+        {% if entry.is_link %}
         <object type="image/svg+xml" data="{{ join_url('images/linkroll.svg') }}" class="svg-linkroll">
-            <img src="{{ join_url('images/linkroll.png') }}" alt="linkroll" />
+            <img src="{{ join_url('images/linkroll.png') }}" alt="link" />
         </object>
         {% endif %}
         <h2><a href="{{ entry.this_url }}">{{ entry.meta.title }}</a></h2>
