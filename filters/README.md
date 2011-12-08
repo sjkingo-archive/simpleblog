@@ -39,7 +39,8 @@ filter_register = {
     'enabled': True,
     'callback': run_filter,
     'apply_to': 'entry_body'
-}```
+}
+```
 
 The `filter_register` dictionary contains three required keys:
 
