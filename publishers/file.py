@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import argparse
+import codecs
 import os
 
 # note we must insert this as position 0 since dispatch is a standard module
@@ -40,7 +41,7 @@ def main():
     entries = []
     for f in files:
         try:
-            input_fp = open(f, 'r')
+            input_fp = codecs.open(f, 'r')
         except IOError, e:
             parser.error(str(e))
         else:
@@ -66,7 +67,7 @@ def main():
         atom = os.path.join(os.path.dirname(f), 'feed.atom')
         print 'Publishing atom feed to %s' % atom
         a = run_atom_dispatch(entries, args.base)
-        with open(atom, 'w') as fp:
+        with codecs.open(atom, 'w', 'utf-8') as fp:
             fp.write(a.to_xml_tree())
 
 
