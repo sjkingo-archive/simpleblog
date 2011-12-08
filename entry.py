@@ -9,7 +9,6 @@ jenv = Environment(loader=FileSystemLoader(
 class Entry(object):
     required_meta = ['title', 'tag', 'published-date']
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
-    date_format = '%d %b %Y'
 
     def __init__(self, meta, body, base_url):
         self.meta = meta
@@ -56,10 +55,9 @@ class Entry(object):
         def _join_url(url):
             return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('entry.html')
-        t = tmpl.render(entry=self, 
-                        join_url=_join_url,
-                        generated=datetime.datetime.now())
-        return t
+        return tmpl.render(entry=self, 
+                          join_url=_join_url,
+                          generated=datetime.datetime.now())
 
 class IndexOfEntries(object):
     def __init__(self, entries, base_url):
