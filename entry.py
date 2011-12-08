@@ -26,7 +26,7 @@ class Entry(object):
 
     @property
     def tag_name(self):
-        return self.meta.get('tag').rsplit(':', 1)[-1]
+        return self.meta.get('tag').split(':')[-1].split('/')[-1]
 
     @property
     def output_filename(self):
