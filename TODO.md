@@ -10,3 +10,4 @@ TODO list
     * some mismatched tags
 * Underline links?
 * Copyright in footer should span to current year
+* Skip regenerating existing entries if there is no difference (constance implements this already)
