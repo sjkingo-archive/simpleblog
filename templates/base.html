@@ -7,8 +7,8 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="generator" content="simpleblog" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans" />
-    <link rel="stylesheet" type="text/css" href="/styles/simpleblog.css" />
-    <script type="text/javascript" src="/scripts/h.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ join_url('styles/simpleblog.css') }}" />
+    <script type="text/javascript" src="{{ join_url('scripts/h.js') }}"></script>
     {% endblock %}
 </head>
 
@@ -16,24 +16,24 @@
     <div id="bodywrapper">
         <div id="header">
             <h1>SJKingston.com</h1>
-            <a href="http://www.sjkingston.com/">
-                <object type="image/svg+xml" data="/images/sjkingston.svg" class="svg-title">
-                    <img src="/images/sjkingston.png" alt="SJKingston.com" />
+            <a href="{{ join_url('/') }}">
+                <object type="image/svg+xml" data="{{ join_url('images/sjkingston.svg') }}" class="svg-title">
+                    <img src="{{ join_url('images/sjkingston.png') }}" alt="SJKingston.com" />
                 </object>
             </a>
-            <a href="/blog/" title="Blog">
-                <object type="image/svg+xml" data="/images/blog.svg">
-                    <img src="/images/blog.png" alt="Blog" />
+            <a href="{{ join_url('blog/') }}" title="Blog">
+                <object type="image/svg+xml" data="{{ join_url('images/blog.svg') }}">
+                    <img src="{{ join_url('images/blog.png') }}" alt="Blog" />
                 </object>
             </a>
-            <a href="/contact/" title="Contact me">
-                <object type="image/svg+xml" data="/images/vcard.svg">
-                    <img src="/images/vcard.png" alt="Contact me" />
+            <a href="{{ join_url('contact/') }}" title="Contact me">
+                <object type="image/svg+xml" data="{{ join_url('images/vcard.svg') }}">
+                    <img src="{{ join_url('images/vcard.png') }}" alt="Contact me" />
                 </object>
             </a>
-            <a href="/blog/feed.atom" title="Subscribe to the Atom feed">
-                <object type="image/svg+xml" data="/images/feed.svg">
-                    <img src="/images/feed.png" alt="Subscribe to the Atom feed" />
+            <a href="{{ join_url('blog/feed.atom') }}" title="Subscribe to the Atom feed">
+                <object type="image/svg+xml" data="{{ join_url('images/feed.svg') }}">
+                    <img src="{{ join_url('images/feed.png') }}" alt="Subscribe to the Atom feed" />
                 </object>
             </a>
         </div>
@@ -42,7 +42,7 @@
         </div>
         <div id="footer">
             {% block footer %}
-            <p>Copyright 2011 <a href="contact/">Sam Kingston</a></p>
+            <p>Copyright 2011 <a href="{{ join_url('contact/') }}">Sam Kingston</a></p>
             {% endblock %}
         </div>
 </body>

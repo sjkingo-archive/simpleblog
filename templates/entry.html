@@ -8,8 +8,8 @@
     </div>
     <div class="entry-title">
         {% if entry.is_linkroll %}
-        <object type="image/svg+xml" data="/images/linkroll.svg" class="svg-linkroll">
-            <img src="/images/linkroll.png" alt="linkroll" />
+        <object type="image/svg+xml" data="{{ join_url('images/linkroll.svg') }}" class="svg-linkroll">
+            <img src="{{ join_url('images/linkroll.png') }}" alt="linkroll" />
         </object>
         {% endif %}
         <h2><a href="{{ entry.this_url }}">{{ entry.meta.title }}</a></h2>

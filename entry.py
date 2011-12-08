@@ -49,8 +49,10 @@ class Entry(object):
         return css
 
     def to_html_tree(self):
+        def _join_url(url):
+            return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('entry.html')
-        t = tmpl.render(entry=self)
+        t = tmpl.render(entry=self, join_url=_join_url)
         return t
 
 class IndexOfEntries(object):
@@ -59,4 +61,7 @@ class IndexOfEntries(object):
         self.base_url = base_url
 
     def to_html_tree(self):
-        return jenv.get_template('index.html').render(entries=self.entries)
+        def _join_url(url):
+            return urlparse.urljoin(self.base_url, url)
+        return jenv.get_template('index.html').render(entries=self.entries,
+                join_url=_join_url)
