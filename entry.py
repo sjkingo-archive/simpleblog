@@ -61,7 +61,7 @@ class Entry(object):
 
 class IndexOfEntries(object):
     def __init__(self, entries, base_url):
-        self.entries = sorted(entries, key=lambda e: e.published_date)
+        self.entries = sorted(entries, key=lambda e: e.published_date, reverse=True)
         self.base_url = base_url
 
     def to_html_tree(self):
