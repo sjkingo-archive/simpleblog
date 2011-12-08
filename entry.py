@@ -56,7 +56,9 @@ class Entry(object):
         def _join_url(url):
             return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('entry.html')
-        t = tmpl.render(entry=self, join_url=_join_url)
+        t = tmpl.render(entry=self, 
+                        join_url=_join_url,
+                        generated=datetime.datetime.now())
         return t
 
 class IndexOfEntries(object):
@@ -67,5 +69,7 @@ class IndexOfEntries(object):
     def to_html_tree(self):
         def _join_url(url):
             return urlparse.urljoin(self.base_url, url)
-        return jenv.get_template('index.html').render(entries=self.entries,
-                join_url=_join_url)
+        tmpl = jenv.get_template('index.html')
+        return tmpl.render(entries=self.entries,
+                           join_url=_join_url,
+                           generated=datetime.datetime.now())
