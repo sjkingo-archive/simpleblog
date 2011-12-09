@@ -6,7 +6,6 @@ TODO list
 * Underline links?
 * Copyright in footer should span to current year
 * Skip regenerating existing entries if there is no difference (constance implements this already)
-* pygments for code blocks
 * Fix CSS styling for:
     * ul/ol
 * justify and hypernation
