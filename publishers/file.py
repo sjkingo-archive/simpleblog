@@ -49,7 +49,7 @@ def main():
             if e.output_filename is not None:
                 out = os.path.join(os.path.dirname(f), e.output_filename)
                 print 'Publishing %s to %s' % (f, out)
-                with open(out, 'w') as output_fp:
+                with codecs.open(out, 'w', 'utf-8') as output_fp:
                     output_fp.write(html)
             else:
                 print 'Skipping publishing %s as it has no output' % f
