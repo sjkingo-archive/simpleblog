@@ -19,7 +19,7 @@
     {% set summary, more = entry.summary %}
     {% if summary is not none %}
         {% if more %}
-            <div class="summary">
+            <div class="summary hyphenate">
                 {{ summary }}
                 <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
             </div>
