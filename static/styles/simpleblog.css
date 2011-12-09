@@ -7,6 +7,22 @@ body {
     color: #212122;
 }
 
+pre, code {
+    font-family: "Bitstream Vera Sans Mono", Courier, monospace;
+}
+/* inline code */
+p code, pre {
+    background-color: #F5F5F5;
+    border: 1px solid #DEDEDE;
+    font-size: 0.8em;
+}
+/* code block */
+pre {
+    padding: 0.25em;
+    overflow: auto;
+    font-size: 0.9em;
+}
+
 #bodywrapper {
     max-width: 40em; /* -5em for date */
     min-height: 100%;

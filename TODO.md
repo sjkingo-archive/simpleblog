@@ -8,7 +8,6 @@ TODO list
 * Skip regenerating existing entries if there is no difference (constance implements this already)
 * pygments for code blocks
 * Fix CSS styling for:
-    * pre/code
     * ul/ol
 * justify and hypernation
 * smartypants
