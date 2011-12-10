@@ -148,8 +148,22 @@ a img {
     margin: 0.5em 0;
 }
 
+.post-meta {
+    font-size: 0.9em;
+    font-variant: small-caps;
+}
+.post-meta, .post-meta a {
+    color: #616263;
+}
+.post-meta p {
+    display: inline;
+}
 p.read-more {
-    margin-left: 0.5em;
+    margin-right: 1em;
+}
+
+.summary {
+    margin-bottom: 0.5em;
 }
 .summary p {
     display: inline;

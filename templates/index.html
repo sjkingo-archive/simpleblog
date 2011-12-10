@@ -21,13 +21,30 @@
         {% if more %}
             <div class="summary hyphenate">
                 {{ summary }}
-                <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
             </div>
         {% else %}
             {{ summary }}
         {% endif %}
     {% endif %}
+    <div class="post-meta">
+        {% if summary is not none %}
+        <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
+        {% endif %}
+        {% if not entry.is_link %}
+        <p class="comment-count"><a href="{{ entry.this_url }}#disqus_thread">No Comments</a></p>
+        {% endif %}
+    </div>
 </div>
 {% endfor %}
+
+<script type="text/javascript">
+    var disqus_shortname = 'sjkingston';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 
 {% endblock %}
