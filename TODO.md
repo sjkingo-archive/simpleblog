@@ -26,3 +26,5 @@ TODO list
     +--------------------+
        ^              ^
        column here,   here
+
+* comments for link entries - how?
