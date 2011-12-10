@@ -172,3 +172,10 @@ p.read-more, p.comment-count {
 #disqus_thread {
     margin-top: 5em;
 }
+
+blockquote {
+    border-left: 3px solid #999999;
+    font-style: italic;
+    margin-left: 1.5em;
+    padding-left: 1em;
+}
