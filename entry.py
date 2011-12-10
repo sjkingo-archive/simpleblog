@@ -12,11 +12,13 @@ class Entry(object):
     required_meta = ['title', 'tag', 'published-date']
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
 
-    def __init__(self, meta, body, body_unfiltered, base_url):
+    def __init__(self, meta, body, body_unfiltered, base_url,
+            disqus_shortname):
         self.meta = meta
         self.body = body
         self._body = body_unfiltered
         self.base_url = base_url
+        self.disqus_shortname = disqus_shortname
 
     def __repr__(self):
         return '<Entry \'%s\' @ %s>' % (self.meta.get('tag'), self.published_date)
@@ -84,16 +86,18 @@ class Entry(object):
                           join_url=_join_url)
 
 class IndexOfEntries(object):
-    def __init__(self, entries, base_url):
+    def __init__(self, entries, base_url, disqus_shortname):
         self.entries = sorted(entries, key=lambda e: e.published_date, reverse=True)
         self.base_url = base_url
+        self.disqus_shortname = disqus_shortname
 
     def to_html_tree(self):
         def _join_url(url):
             return urlparse.urljoin(self.base_url, url)
         tmpl = jenv.get_template('index.html')
         return tmpl.render(entries=self.entries,
-                           join_url=_join_url)
+                           join_url=_join_url,
+                           disqus_shortname=self.disqus_shortname)
 
 class AtomFeed(IndexOfEntries):
     def to_xml_tree(self):

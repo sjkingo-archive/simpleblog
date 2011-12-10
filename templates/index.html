@@ -30,7 +30,7 @@
         {% if more %}
         <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
         {% endif %}
-        {% if not entry.is_link %}
+        {% if disqus_shortname and not entry.is_link %}
         <p class="comment-count"><a href="{{ entry.this_url }}#disqus_thread">No Comments</a></p>
         {% endif %}
         {% if entry.modified_date %}
@@ -42,8 +42,9 @@
 </div>
 {% endfor %}
 
+{% if disqus_shortname %}
 <script type="text/javascript">
-    var disqus_shortname = 'sjkingston';
+    var disqus_shortname = '{{ disqus_shortname}}';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -51,5 +52,6 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
+{% endif %}
 
 {% endblock %}

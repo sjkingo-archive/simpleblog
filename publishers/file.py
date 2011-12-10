@@ -17,6 +17,9 @@ def main():
             help='base URL prepended to all generated references (ensure it has a trailing slash)')
     parser.add_argument('-i', '--index', action='store_true', default=False,
             help='write index page and atom feed, possibly overriding them (note: if given with -f then the only one entry will be added to each!)')
+    parser.add_argument('-D', '--disqus_shortname', metavar='SHORTNAME',
+            help='shortname for disqus comments (if not given, comments are disabled')
+
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d', '--dir', metavar='DIR', dest='dirname',
             help='directory of entries to publish')
@@ -45,7 +48,8 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            e, html = run_dispatch(input_fp, args.base, filters)
+            e, html = run_dispatch(input_fp, args.base, filters, 
+                    args.disqus_shortname)
             if e.output_filename is not None:
                 out = os.path.join(os.path.dirname(f), e.output_filename)
                 print 'Publishing %s to %s' % (f, out)
@@ -60,7 +64,8 @@ def main():
     if args.index:
         out = os.path.join(os.path.dirname(f), 'index.html')
         print 'Publishing index with %d entries to %s' % (len(entries), out)
-        i, html = run_index_dispatch(entries, args.base, filters)
+        i, html = run_index_dispatch(entries, args.base, filters,
+                args.disqus_shortname)
         with open(out, 'w') as fp:
             fp.write(html)
 

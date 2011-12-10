@@ -49,7 +49,7 @@ def register_filters(filter_dir='filters'):
 
     return mods
 
-def run_dispatch(input_fp, base_url, filters=[]):
+def run_dispatch(input_fp, base_url, filters=[], disqus_shortname=None):
     # parse like a MIME document
     msg = email.message_from_file(input_fp)
     meta = dict(msg.items())
@@ -66,14 +66,14 @@ def run_dispatch(input_fp, base_url, filters=[]):
     else:
         body = apply_filters_for(filters, 'entry_body', body)
 
-    e = entry.Entry(meta, body, body_unfiltered, base_url)
+    e = entry.Entry(meta, body, body_unfiltered, base_url, disqus_shortname)
     html = apply_filters_for(filters, 'html_file', e.to_html_tree())
     return (e, html)
 
-def run_index_dispatch(entries, base_url, filters=[]):
-    i = entry.IndexOfEntries(entries, base_url)
+def run_index_dispatch(entries, base_url, filters=[], disqus_shortname=None):
+    i = entry.IndexOfEntries(entries, base_url, disqus_shortname)
     html = apply_filters_for(filters, 'html_file', i.to_html_tree())
     return (i, html)
 
 def run_atom_dispatch(entries, base_url):
-    return entry.AtomFeed(entries, base_url)
+    return entry.AtomFeed(entries, base_url, disqus_shortname=None)
