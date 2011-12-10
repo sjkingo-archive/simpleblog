@@ -154,3 +154,7 @@ p.read-more {
 .summary p {
     display: inline;
 }
+
+#disqus_thread {
+    margin-top: 5em;
+}
