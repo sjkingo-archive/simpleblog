@@ -1,7 +1,8 @@
 import markdown2
 
 def parse_markdown(body):
-    md = markdown2.Markdown()
+    extras = ['code-friendly', 'smarty-pants']
+    md = markdown2.Markdown(extras=extras)
     return md.convert(body)
 
 filter_register = {
