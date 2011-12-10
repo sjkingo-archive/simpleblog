@@ -8,7 +8,6 @@ TODO list
 * Skip regenerating existing entries if there is no difference (constance implements this already)
 * Fix CSS styling for:
     * ul/ol
-* justify and hypernation
 * smartypants
 * Modified meta (bottom of post?)
 * giant # in right column for permalink
