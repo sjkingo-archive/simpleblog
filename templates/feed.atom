@@ -15,7 +15,12 @@
     <entry>
         <id>{{ entry.meta.tag }}</id>
         <title>{{ entry.meta.title }}</title>
+        {% if entry.modified_date %}
+        <published>{{ entry.published_date.strftime(ATOM_DATE_FORMAT) }}</published>
+        <updated>{{ entry.modified_date.strftime(ATOM_DATE_FORMAT) }}</updated>
+        {% else %}
         <updated>{{ entry.published_date.strftime(ATOM_DATE_FORMAT) }}</updated>
+        {% endif %}
         <link rel="alternate" href="{{ entry.this_url }}" />
         {% if entry.body %}
             <content type="html">{{ entry.body|e }}</content>
