@@ -27,11 +27,16 @@
         {% endif %}
     {% endif %}
     <div class="post-meta">
-        {% if summary is not none %}
+        {% if more %}
         <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
         {% endif %}
         {% if not entry.is_link %}
         <p class="comment-count"><a href="{{ entry.this_url }}#disqus_thread">No Comments</a></p>
+        {% endif %}
+        {% if entry.modified_date %}
+        <p class="modified-date" title="{{ entry.modified_date.isoformat() }}">
+            Modified {{ entry.modified_date.strftime('%d %b %Y %H:%M') }}
+        </p>
         {% endif %}
     </div>
 </div>

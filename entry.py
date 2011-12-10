@@ -27,6 +27,14 @@ class Entry(object):
                 self.on_disk_date_format)
 
     @property
+    def modified_date(self):
+        m = self.meta.get('modified-date', None)
+        if m is None:
+            return None
+        else:
+            return datetime.datetime.strptime(m, self.on_disk_date_format)
+
+    @property
     def tag_specific(self):
         return self.meta.get('tag').split(':')[-1]
 

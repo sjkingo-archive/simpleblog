@@ -13,6 +13,13 @@
     <div class="entry-body hyphenate">
         {{ entry.body }}
     </div>
+    <div class="post-meta">
+        {% if entry.modified_date %}
+        <p class="modified-date" title="{{ entry.modified_date.isoformat() }}">
+            Modified {{ entry.modified_date.strftime('%d %b %Y %H:%M') }}
+        </p>
+        {% endif %}
+    </div>
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         var disqus_shortname = 'sjkingston';
