@@ -16,16 +16,13 @@ it, and returns a transformed version of the string.
 Stock filters
 -------------
 
-Two filters are shipped with simpleblog and are enabled by default:
+One filter is shipped with simpleblog and is enabled by default:
 
 * `fmarkdown2` converts each entry's body text from [Markdown](http://daringfireball.net/projects/markdown/syntax) to HTML
-* `fprettify` takes each generated page and reformats the HTML source for readability
 
-Either filter may be disabled by setting its `enabled` attribute to `False`
-(more on this below).
-
-Filters are typically named with an `f` at the start; this is to prevent name
-conflicts with other Python modules on the import path.
+Filters may be disabled by setting its `enabled` attribute to `False` (more on
+this below). They are typically named with an `f` at the start; this is to
+prevent name conflicts with other Python modules on the import path.
 
 Internals of a filter
 ---------------------
