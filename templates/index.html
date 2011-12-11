@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for entry in entries %}
-<div id="{{ entry.tag_name }}" class="{{ entry.css_type }}">
+<div id="{{ entry.guid_name }}" class="{{ entry.css_type }}">
     <div class="published-date" title="{{ entry.published_date.isoformat() }}">
         <span class="day">{{ entry.published_date.strftime('%d') }}</span>
         {{ entry.published_date.strftime('%b %Y') }}

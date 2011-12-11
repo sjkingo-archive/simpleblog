@@ -1,4 +1,4 @@
 title: The YAML 1.2 specification
-tag: tag:sam@sjkwi.com.au,2011-12-08:yaml-spec
+guid: tag:sam@sjkwi.com.au,2011-12-08:yaml-spec
 published-date: 2011-12-08 06:58:57
 link: http://www.yaml.org/spec/1.2/spec.html

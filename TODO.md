@@ -27,4 +27,3 @@ TODO list
 
 * comments for link entries - how?
 * support via: metadata on links
-* rename tag: meta to guid:

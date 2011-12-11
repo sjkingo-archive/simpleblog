@@ -13,7 +13,7 @@
 
     {% for entry in entries %}
     <entry>
-        <id>{{ entry.meta.tag }}</id>
+        <id>{{ entry.meta.guid }}</id>
         <title>{{ entry.meta.title }}</title>
         {% if entry.modified_date %}
         <published>{{ entry.published_date.strftime(ATOM_DATE_FORMAT) }}</published>

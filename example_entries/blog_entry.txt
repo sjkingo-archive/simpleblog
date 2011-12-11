@@ -1,5 +1,5 @@
 title: Example blog entry
-tag: tag:sam@sjkwi.com.au,2011-12-07:example-blog-entry
+guid: tag:sam@sjkwi.com.au,2011-12-07:example-blog-entry
 published-date: 2011-12-07 03:44:57
 
 Welcome to the example blog entry, parsed using **markdown**.

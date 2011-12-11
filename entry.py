@@ -15,8 +15,8 @@ class InvalidEntry(Exception):
         return self.msg
 
 class Entry(object):
-    required_meta = frozenset(['title', 'tag', 'published-date'])
-    optional_meta = frozenset(['link', 'modified-date'])
+    required_meta = frozenset(['title', 'guid', 'published-date'])
+    optional_meta = frozenset(['link', 'modified-date', 'via'])
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, meta, body, body_unfiltered, base_url,
@@ -30,11 +30,11 @@ class Entry(object):
         self.disqus_shortname = disqus_shortname
 
     def __repr__(self):
-        return '<Entry \'%s\' @ %s>' % (self.meta.get('tag'), self.published_date)
+        return '<Entry \'%s\' @ %s>' % (self.meta.get('guid'), self.published_date)
 
     @staticmethod
-    def assert_tag(cls, tag):
-        parts = tag.split(':')
+    def assert_tag(cls, guid):
+        parts = guid.split(':')
         assert len(parts) == 3
         assert parts[0] == 'tag'
         entity = parts[1].split(',', 1)
@@ -55,11 +55,11 @@ class Entry(object):
         if len(diff) != 0:
             raise InvalidEntry('entraneous header(s) found: %s' % list(diff))
 
-        # validate the tag
+        # validate the guid
         try:
-            cls.assert_tag(cls, meta.get('tag'))
+            cls.assert_tag(cls, meta.get('guid'))
         except AssertionError:
-            raise InvalidEntry('invalid tag URI according to RFC4151')
+            raise InvalidEntry('guid is an invalid tag according to RFC4151')
 
     @property
     def published_date(self):
@@ -75,21 +75,21 @@ class Entry(object):
             return datetime.datetime.strptime(m, self.on_disk_date_format)
 
     @property
-    def tag_specific(self):
-        return self.meta.get('tag').split(':')[-1]
+    def guid_specific(self):
+        return self.meta.get('guid').split(':')[-1]
 
     @property
-    def tag_name(self):
-        return self.tag_specific.split('/')[-1]
+    def guid_name(self):
+        return self.guid_specific.split('/')[-1]
 
     @property
     def output_filename(self):
-        return None if self.is_link else self.tag_name + '.html'
+        return None if self.is_link else self.guid_name + '.html'
 
     @property
     def this_url(self):
         return self.meta.get('link') if self.is_link \
-                else urlparse.urljoin(self.base_url, self.tag_specific)
+                else urlparse.urljoin(self.base_url, self.guid_specific)
 
     @property
     def is_link(self):
