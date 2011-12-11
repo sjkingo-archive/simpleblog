@@ -16,7 +16,7 @@ class InvalidEntry(Exception):
 
 class Entry(object):
     required_meta = frozenset(['title', 'guid', 'published-date'])
-    optional_meta = frozenset(['link', 'modified-date', 'via'])
+    optional_meta = frozenset(['link', 'modified-date'])
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, meta, body, body_unfiltered, base_url,
