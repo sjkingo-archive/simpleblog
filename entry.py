@@ -8,12 +8,21 @@ jenv = Environment(loader=FileSystemLoader(
 
 ATOM_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S+10:00'
 
+class InvalidEntry(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return self.msg
+
 class Entry(object):
-    required_meta = ['title', 'tag', 'published-date']
+    required_meta = frozenset(['title', 'tag', 'published-date'])
+    optional_meta = frozenset(['link', 'modified-date'])
     on_disk_date_format = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, meta, body, body_unfiltered, base_url,
             disqus_shortname):
+        self.validate_entry(self, meta)
+
         self.meta = meta
         self.body = body
         self._body = body_unfiltered
@@ -22,6 +31,35 @@ class Entry(object):
 
     def __repr__(self):
         return '<Entry \'%s\' @ %s>' % (self.meta.get('tag'), self.published_date)
+
+    @staticmethod
+    def assert_tag(cls, tag):
+        parts = tag.split(':')
+        assert len(parts) == 3
+        assert parts[0] == 'tag'
+        entity = parts[1].split(',', 1)
+        assert len(entity) == 2
+        return (entity[0], entity[1], parts[2])
+
+    @staticmethod
+    def validate_entry(cls, meta):
+        fset_head = frozenset(meta.keys())
+
+        # make sure all required headers are present
+        diff = cls.required_meta - fset_head
+        if len(diff) != 0:
+            raise InvalidEntry('missing required header(s): %s' % list(diff))
+
+        # make sure there are no additional headers
+        diff = fset_head - cls.required_meta - cls.optional_meta
+        if len(diff) != 0:
+            raise InvalidEntry('entraneous header(s) found: %s' % list(diff))
+
+        # validate the tag
+        try:
+            cls.assert_tag(cls, meta.get('tag'))
+        except AssertionError:
+            raise InvalidEntry('invalid tag URI according to RFC4151')
 
     @property
     def published_date(self):

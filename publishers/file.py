@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from dispatch import run_dispatch, run_index_dispatch, run_atom_dispatch, register_filters
+from entry import InvalidEntry
 
 def main():
     parser = argparse.ArgumentParser(
@@ -48,16 +49,20 @@ def main():
         except IOError, e:
             parser.error(str(e))
         else:
-            e, html = run_dispatch(input_fp, args.base, filters, 
-                    args.disqus_shortname)
-            if e.output_filename is not None:
-                out = os.path.join(os.path.dirname(f), e.output_filename)
+            try:
+                et, html = run_dispatch(input_fp, args.base, filters, 
+                        args.disqus_shortname)
+            except InvalidEntry, e:
+                print >> sys.stderr, 'Error in %s: %s' % (f, str(e))
+                exit(3)
+            if et.output_filename is not None:
+                out = os.path.join(os.path.dirname(f), et.output_filename)
                 print 'Publishing %s to %s' % (f, out)
                 with codecs.open(out, 'w', 'utf-8') as output_fp:
                     output_fp.write(html)
             else:
                 print 'Skipping publishing %s as it has no output' % f
-            entries.append(e)
+            entries.append(et)
             input_fp.close()
 
     # publish index and atom feed if requested

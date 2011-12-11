@@ -55,11 +55,6 @@ def run_dispatch(input_fp, base_url, filters=[], disqus_shortname=None):
     meta = dict(msg.items())
     body_unfiltered = msg.get_payload()
 
-    # validate the meta given
-    for r in entry.Entry.required_meta:
-        if r not in meta:
-            raise InvalidEntry('%s not present in entry meta' % r)
-
     body = body_unfiltered.strip()
     if len(body) == 0:
         body = None
