@@ -39,6 +39,7 @@ class Entry(object):
         assert parts[0] == 'tag'
         entity = parts[1].split(',', 1)
         assert len(entity) == 2
+        assert parts[2].startswith('blog/')
         return (entity[0], entity[1], parts[2])
 
     @staticmethod
