@@ -29,6 +29,8 @@
     <div class="post-meta">
         {% if more %}
         <p class="read-more"><a href="{{ entry.permalink }}">Read more</a></p>
+        {% else %}
+        <p class="permalink"><a href="{{ entry.permalink }}">Permalink</a></p>
         {% endif %}
         {% if disqus_shortname %}
         <p class="comment-count"><a href="{{ entry.permalink }}#disqus_thread">No comments</a></p>
