@@ -84,12 +84,16 @@ class Entry(object):
 
     @property
     def output_filename(self):
-        return None if self.is_link else self.guid_name + '.html'
+        return self.guid_name + '.html'
 
     @property
     def this_url(self):
         return self.meta.get('link') if self.is_link \
                 else urlparse.urljoin(self.base_url, self.guid_specific)
+
+    @property
+    def permalink(self):
+        return urlparse.urljoin(self.base_url, self.guid_specific)
 
     @property
     def is_link(self):

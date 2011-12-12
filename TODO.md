@@ -25,5 +25,4 @@ TODO list
        ^              ^
        column here,   here
 
-* comments for link entries - how?
 * support via: metadata on links

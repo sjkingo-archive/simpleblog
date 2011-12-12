@@ -28,10 +28,10 @@
     {% endif %}
     <div class="post-meta">
         {% if more %}
-        <p class="read-more"><a href="{{ entry.this_url }}">Read more</a></p>
+        <p class="read-more"><a href="{{ entry.permalink }}">Read more</a></p>
         {% endif %}
-        {% if disqus_shortname and not entry.is_link %}
-        <p class="comment-count"><a href="{{ entry.this_url }}#disqus_thread">No comments</a></p>
+        {% if disqus_shortname %}
+        <p class="comment-count"><a href="{{ entry.permalink }}#disqus_thread">No comments</a></p>
         {% endif %}
         {% if entry.modified_date %}
         <p class="modified-date" title="{{ entry.modified_date.isoformat() }}">
