@@ -25,3 +25,4 @@ TODO list
        column here,   here
 
 * support via: metadata on links
+* sitemap.xml(.gz)
