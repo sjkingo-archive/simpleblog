@@ -158,7 +158,7 @@ a img {
 .post-meta p {
     display: inline;
 }
-p.read-more, p.comment-count {
+p.read-more, p.permalink, p.comment-count {
     margin-right: 1em;
 }
 
