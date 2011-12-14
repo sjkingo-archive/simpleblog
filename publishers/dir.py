@@ -14,35 +14,26 @@ from entry import InvalidEntry
 def main():
     parser = argparse.ArgumentParser(
             description='Publish a blog entry (or entries) to HTML')
+    parser.add_argument('-d', '--dir', metavar='DIR', dest='dirname', required=True,
+            help='directory of entries to publish')
     parser.add_argument('-b', '--base', metavar='URL', default='http://localhost/',
             help='base URL prepended to all generated references (ensure it has a trailing slash)')
-    parser.add_argument('-i', '--index', action='store_true', default=False,
-            help='write index page and atom feed, possibly overriding them (note: if given with -f then the only one entry will be added to each!)')
     parser.add_argument('-D', '--disqus_shortname', metavar='SHORTNAME',
             help='shortname for disqus comments (if not given, comments are disabled')
-
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-d', '--dir', metavar='DIR', dest='dirname',
-            help='directory of entries to publish')
-    group.add_argument('-f', '--file', metavar='FILE', dest='filename',
-            help='filename of a single entry to publish')
     args = parser.parse_args()
 
-    # collect input filenames
-    if args.filename:
-        files = [args.filename]
-    else:
-        try:
-            files = [os.path.join(args.dirname, f) for f in os.listdir(args.dirname)
-                    if os.path.splitext(os.path.join(args.dirname, f))[1] == '.txt']
-        except OSError, e:
-            parser.error(str(e))
+    try:
+        files = [os.path.join(args.dirname, f) for f in os.listdir(args.dirname)
+                if os.path.splitext(os.path.join(args.dirname, f))[1] == '.txt']
+    except OSError, e:
+        parser.error(str(e))
 
     filter_dir = os.path.join(os.path.dirname(__file__), '..', 'filters')
     filters = register_filters(filter_dir)
 
     # publish each entry by dispatching it
     entries = []
+    published = []
     for f in files:
         try:
             input_fp = codecs.open(f, 'r')
@@ -57,16 +48,23 @@ def main():
                 exit(3)
             if et.output_filename is not None:
                 out = os.path.join(os.path.dirname(f), et.output_filename)
-                print 'Publishing %s to %s' % (f, out)
-                with codecs.open(out, 'w', 'utf-8') as output_fp:
-                    output_fp.write(html)
-            else:
-                print 'Skipping publishing %s as it has no output' % f
+                publish = False
+                with codecs.open(out, 'r', 'utf-8') as output_fp:
+                    h = output_fp.read()
+                    if h != html:
+                        publish = True
+                if publish:
+                    print 'Publishing %s to %s' % (f, out)
+                    with codecs.open(out, 'w', 'utf-8') as output_fp:
+                        output_fp.write(html)
+                    published.append(et)
             entries.append(et)
             input_fp.close()
 
-    # publish index and atom feed if requested
-    if args.index:
+    print 'Published %d entries' % len(published)
+
+    # publish index and atom feed
+    if len(published) != 0:
         out = os.path.join(os.path.dirname(f), 'index.html')
         print 'Publishing index with %d entries to %s' % (len(entries), out)
         i, html = run_index_dispatch(entries, args.base, filters,

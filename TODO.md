@@ -5,7 +5,6 @@ TODO list
 * Contact page (static?)
 * Underline links?
 * Copyright in footer should span to current year
-* Skip regenerating existing entries if there is no difference (constance implements this already)
 * Rewrite CSS layout to stack columns properly:
 
     +--------------------+
