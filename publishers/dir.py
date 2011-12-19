@@ -49,10 +49,13 @@ def main():
             if et.output_filename is not None:
                 out = os.path.join(os.path.dirname(f), et.output_filename)
                 publish = False
-                with codecs.open(out, 'r', 'utf-8') as output_fp:
-                    h = output_fp.read()
-                    if h != html:
-                        publish = True
+                try:
+                    with codecs.open(out, 'r', 'utf-8') as output_fp:
+                        h = output_fp.read()
+                        if h != html:
+                            publish = True
+                except IOError:
+                    publish = True
                 if publish:
                     print 'Publishing %s to %s' % (f, out)
                     with codecs.open(out, 'w', 'utf-8') as output_fp:
