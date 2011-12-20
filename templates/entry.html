@@ -18,6 +18,9 @@
     <div class="entry-body hyphenate">
         {{ entry.body }}
     </div>
+    {% else %}
+        <div class="no-content">This entry is a link with no content; click on the title above to view it.</div>
+    {% endif %}
     <div class="post-meta">
         {% if entry.modified_date %}
         <p class="modified-date" title="{{ entry.modified_date.isoformat() }}">
@@ -36,7 +39,6 @@
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
