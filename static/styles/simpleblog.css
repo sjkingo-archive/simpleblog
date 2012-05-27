@@ -8,7 +8,7 @@ body {
 }
 
 pre, code {
-    font-family: "Bitstream Vera Sans Mono", Courier, monospace;
+    font-family: "Bitstream Vera Sans Mono", Inconsolata, Courier, monospace;
 }
 /* inline code */
 p code, pre {
